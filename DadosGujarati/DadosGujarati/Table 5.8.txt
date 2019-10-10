@@ -1,0 +1,11 @@
+Table 5.8 - Consumption of Good X and Y
+  X = Consumption of Good X
+  Y = Consumption of Good Y
+
+  X     Y
+  1    4.0
+  2    3.5
+  3    2.8
+  4    1.9
+  5    0.8
+

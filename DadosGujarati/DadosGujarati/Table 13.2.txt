@@ -1,0 +1,26 @@
+Table 13.2 
+Hypothetical Data on True Consumption Expenditure, True Income,
+             Measured Consumption Expenditure and Measured Income
+
+  Y* = True Consumption Expenditure, $
+  X* = True Income, $
+  Y  = Measure Consumption Expenditure, $
+  X  = Measured Income, $
+  E  = Stochastic Error Term
+  W  = Stochastic Error Term
+  U  = Stochastic Error Term
+
+      Y*       X*         Y          X          E         W         U
+   75.4666    80.00    67.6011    80.0940   -7.8655    0.0940     2.4666
+   74.9801   100.00    75.4438    91.5721    0.4636   -8.4279   -10.0199
+  102.8242   120.00   109.6956   112.1406    6.8714    2.1406     5.8242
+  125.7651   140.00   129.4159   145.5969    3.6509    5.5969    16.7651
+  106.5035   160.00   104.2388   168.5579   -2.2647    8.5579   -14.4965
+  131.4318   180.00   125.8319   171.4793   -5.5999   -8.5207    -1.5682
+  149.3693   200.00   153.9926   203.5366    4.6233    3.5366     4.3693
+  143.8628   220.00   152.9208   222.8533    9.0579    2.8533   -13.1372
+  177.5218   240.00   176.3344   232.9879   -1.1874   -7.0120     8.5218
+  182.2748   260.00   174.5252   261.1813   -7.7496    1.1813     1.2748
+
+
+

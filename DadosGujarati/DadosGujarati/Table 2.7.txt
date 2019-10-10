@@ -1,0 +1,28 @@
+Table 2.7: Labor Force Participation Data
+
+  Civilian Labor Force Participation Rate, Male (CLFPRM, %)
+  Civilian Labor Force Participation Rate, Female (CLFPRF, %)
+  Civilian Unemployment Rate, Male (UNRM, %)
+  Civilian Unemployment Rate, Female (UNRF, %)
+  Average Hourly Earnings (AHE82, 1982 $)
+  Average Hourly Earnings (AHE, Current $)
+
+ YEAR      CLFPRM      CLFPRF      UNRM      UNRF      AHE82      AHE
+ 1980       77.4        51.5        6.9       7.4       7.78      6.66
+ 1981       77.0        52.1        7.4       7.9       7.69      7.25
+ 1982       76.6        52.6        9.9       9.4       7.68      7.68
+ 1983       76.4        52.9        9.9       9.2       7.79      8.02
+ 1984       76.4        53.6        7.4       7.6       7.80      8.32
+ 1985       76.3        54.5        7.0       7.4       7.77      8.57
+ 1986       76.3        55.3        6.9       7.1       7.81      8.76
+ 1987       76.2        56.0        6.2       6.2       7.73      8.98
+ 1988       76.2        56.6        5.5       5.6       7.69      9.28
+ 1989       76.4        57.4        5.2       5.4       7.64      9.66
+ 1990       76.4        57.5        5.7       5.5       7.52     10.01
+ 1991       75.8        57.4        7.2       6.4       7.45     10.32
+ 1992       75.8        57.8        7.9       7.0       7.41     10.57
+ 1993       75.4        57.9        7.2       6.6       7.39     10.83
+ 1994       75.1        58.8        6.2       6.0       7.40     11.12
+ 1995       75.0        58.9        5.6       5.6       7.40     11.44
+ 1996       74.9        59.3        5.4       5.4       7.43     11.82
+

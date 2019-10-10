@@ -1,0 +1,33 @@
+Table 13.3
+Per Capita Personal Consumption Expenditure and Per Capita
+             Personal Disposable Income, United States, 1970-1991
+
+  PPCE = Per Capita Personal Consumption Expenditure, 1987 $
+  PDPI = Per Capita Personal Disposable Income, 1987 $
+
+  YEAR     PPCE     PDPI
+  1970     8842     9875
+  1971     9022    10111
+  1972     9425    10414
+  1973     9752    11013
+  1974     9602    10832
+  1975     9711    10906
+  1976    10121    11192
+  1977    10425    11406
+  1978    10744    11851
+  1979    10876    12039
+  1980    10746    12005
+  1981    10770    12156
+  1982    10782    12146
+  1983    11179    12349
+  1984    11617    13029
+  1985    12015    13258
+  1986    12336    13552
+  1987    12568    13545
+  1988    12903    13890
+  1989    13029    14005
+  1990    13044    14068
+  1991    12824    13886
+
+
+
