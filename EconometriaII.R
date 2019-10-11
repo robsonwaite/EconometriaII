@@ -4,10 +4,10 @@ setwd("D:\\R-codes\\EconometriaII\\DadosGujarati\\DadosGujarati")
 ## Tabela 11.1
 ProdComp = as.matrix(read.table("Table 11.1.txt", header = T, sep = "", na.strings = "EMPTY", strip.white = T, row.names = 1))
 
-AvProdtivity <- ProdComp[13,-1]
-Sd <- ProdComp[12,-1]
-AvCompens <- ProdComp[11,-1]
-ProdComp <- ProdComp[-(11:13),-1]
+AvProdtivity <- ProdComp[13,]
+Sd <- ProdComp[12,]
+AvCompens <- ProdComp[11,]
+ProdComp <- ProdComp[-(11:13),]
 
 ProdCompFinal <- matrix(NA, ncol = ncol(ProdComp), nrow = 2)
 for(i in 1:ncol(ProdComp)){
@@ -17,11 +17,14 @@ for(i in 1:ncol(ProdComp)){
 colnames(ProdCompFinal) <- colnames(ProdComp)
 
 ### Regressao Produtividade x Salario
-options(scipen = 999)
+options(scipen = 999) #desabilita notação cientifica 
 fit = lm(AvCompens ~ AvProdtivity)
 summary(fit)
 
 plot(AvProdtivity, rstandard(fit))
+
+qt(0.975) # t valor que limita a região de aceitação, > que ele ñ aceita. 
+
 
 ## Park Test
 
