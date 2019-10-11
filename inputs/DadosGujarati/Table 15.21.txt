@@ -1,0 +1,26 @@
+Table 15.21
+Applicants to a Graduate Program
+
+  STUDENT = Student Number
+  Q       = GRE Aptitude Test Score - Quantitative
+  V       = GRE Aptitude Test Score - Verbal
+  ADMIT   = Admitted to Graduate Program
+            where: 1=Yes
+                   0=No
+
+  STUDENT     Q      V    ADMIT
+     1       760    550     1
+     2       600    350     0
+     3       720    320     0
+     4       710    630     1
+     5       530    430     0
+     6       650    570     0
+     7       800    500     1
+     8       650    680     1
+     9       520    660     0
+    10       800    250     0
+    11       670    480     0
+    12       670    520     1
+    13       780    710     1
+
+                           

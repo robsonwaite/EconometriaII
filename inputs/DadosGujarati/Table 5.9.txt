@@ -1,0 +1,48 @@
+Table 5.9 
+The Hamburger Standard
+
+  COUNTRY = Country
+  BMACLC  = Big Mac Prices in Local Currency
+  BMAC$   = Big Mac Prices in $
+  EXCH    = Actual $ Exchange Rate 4/17/2001
+  PPP     = Implied Purchasing-Power Parity of the Dollar: Local Price
+            Divided by Price in United States
+  LOCALC  = Local Currency Under (-)/Over (+) Valuation Against $, Percent
+
+  Note:  -99999 = No Value Given
+
+  COUNTRY          BMACLC   BMAC$     EXCH        PPP    LOCALC
+  United States      2.54    2.54     -99999     -99999  -99999
+  Argentina          2.50    2.50       1.00       0.98    -40
+  Australia          3.00    1.52       1.98       1.18    -35
+  Brazil             3.60    1.64       2.19       1.42    -31
+  Britain            1.99    2.85       1.43       1.28     12
+  Canada             3.33    2.14       1.56       1.31    -16
+  Chile           1260.00    2.10     601.00     496.00    -17
+  China              9.90    1.20       8.28       3.90    -53
+  Czech Republic    56.00    1.43      39.70      22.00    -44
+  Denmark           24.75    2.93       8.46       9.74     15
+  France            18.50    2.49       7.44       7.28    -2
+  Germany            5.10    2.30       2.22       2.01    -9
+  Italy	          4300.00    1.96    2195.00    1693.00    -23
+  Spain            395.00    2.09     189.00     156.00    -18
+  Hong Kong         10.70    1.37       7.80       4.21    -46
+  Hungary          399.00    1.32     303.00     157.00    -48
+  Indonesia      14700.00    1.35   10855.00    5787.00    -47
+  Japan            294.00    2.38     124.00     116.00    -6
+  Malaysia           4.52    1.19       3.80       1.78    -53
+  Mexico            21.90    2.36       9.29       8.62    -7
+  New Zealand        3.60    1.46       2.47	   1.42   -43
+  Philippines       59.00    1.17      50.30      23.20   -54
+  Poland             5.90    1.46       4.03       2.32   -42
+  Russia            35.00    1.21      28.90      13.80   -52
+  Singapore          3.30    1.82       1.81       1.30   -28
+  South Africa       9.70    1.19       8.13       3.82   -53
+  South Korea     3000.00    2.27    1325.00    1181.00   -11
+  Sweden            24.00    2.33      10.28       9.45   -8
+  Switzerland        6.30    3.65       1.73       2.48   44
+  Taiwan            70.00    2.13      32.90      27.60   -16
+  Thailand          55.00    1.21      45.50      21.70   -52
+
+
+

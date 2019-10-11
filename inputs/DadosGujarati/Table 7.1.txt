@@ -1,0 +1,21 @@
+Table 7.1 
+ U.S. Coffee Consumption in Relation to Average Real Retail
+ Price, 1970-1980
+
+  YEAR = Year
+  Y    = U.S. Coffee Consumption, Cups Per Person Per Day
+  X    = Average Real Retail Price, $ Per Pound
+
+  YEAR     Y       X
+  1970    2.57    0.77
+  1971    2.50    0.74
+  1972    2.35    0.72
+  1973    2.30    0.73
+  1974    2.25    0.76
+  1975    2.20    0.75
+  1976    2.11    1.08
+  1977    1.94    1.81
+  1978    1.97    1.39
+  1979    2.06    1.20
+  1980    2.02    1.17
+

@@ -1,0 +1,21 @@
+Table 15.22
+Effectiveness of Price Discount Coupon on a Six-Pack of a
+                Two-Litre Soft Drink
+
+  X = Price Discount, Cents
+  N = Sample Size
+  n = Number of Coupons Redeemed
+
+  X      N      n   
+   5    500    100
+   7    500    122
+   9    500    147
+  11    500    176
+  13    500    211
+  15    500    244
+  17    500    277
+  19    500    310
+  21    500    343
+  23    500    372
+  25    500    391
+

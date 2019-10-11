@@ -1,0 +1,19 @@
+Table 7.4 
+Total Cost and Output
+
+  Y = Total Cost, $
+  X = Output
+
+   X     Y
+   1    193
+   2    226
+   3    240
+   4    244
+   5    257
+   6    260
+   7    274
+   8    297
+   9    350
+  10    420
+
+

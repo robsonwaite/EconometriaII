@@ -1,0 +1,16 @@
+Table 9.6	
+Hypothetical data on 	
+output and total cost	
+
+Total cost ($)	Output (units)
+
+256	1000
+414	2000
+634	3000
+778	4000
+1003	5000
+1839	6000
+2081	7000
+2423	8000
+2734	9000
+2914	10000

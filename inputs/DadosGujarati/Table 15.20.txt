@@ -1,0 +1,20 @@
+Table 15.20 
+Toxicity Study and Rotenone on Chyrsanthemum Aphis
+
+  X      = Concentration, Milligrams Per Litre
+  Log(X) = Logged Concentration, Milligrams Per Litre
+  N      = Total
+  n      = Death
+
+           Death, n
+  PHAT   = --------
+           Total, N
+
+   X      LOG(X)    N     n     PHAT
+   2.6    0.4150    50     6    0.120
+   3.8    0.5797    48    16    0.333
+   5.1    0.7076    46    24    0.522
+   7.7    0.8865    49    42    0.857
+  10.2    1.0086    50    44    0.880
+
+     

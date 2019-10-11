@@ -1,0 +1,33 @@
+Table 20.1 
+Crop Production, Crop Prices and Per Capita Personal Consumption
+             Expenditures, United States, 1970-1991
+
+  YEAR = Year
+  Q    = Index of Crop Production, 1977=100
+  P    = Index of Crop Prices Received by Farmers, 1977=100
+  X    = Real Per Capita Personal Consumption Expenditure, 1982 $
+
+  YEAR     Q      P       X
+  1970     77     52     3152
+  1971     86     56     3372
+  1972     87     60     3658
+  1973     92     91     4002
+  1974     84    117     4337
+  1975     93    105     4745
+  1976     92    102     5241
+  1977    100    100     5772
+  1978    102    105     6384
+  1979    113    116     7035
+  1980    101    125     7677
+  1981    117    134     8375
+  1982    117    121     8868
+  1983     88    128     9634
+  1984    111    138    10408
+  1985    118    120    11184
+  1986    109    107    11843
+  1987    108    106    12568
+  1988     92    126    13448
+  1989    107    134    14241
+  1990    114    127    14996
+  1991    111    130    15384
+

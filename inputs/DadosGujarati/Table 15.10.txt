@@ -1,0 +1,21 @@
+Table 15.10 
+Estimating the Index I from the Standard Normal CDF
+
+  P = PHAT
+  I = F-1*PHAT(inverse of normal CDF)
+
+    P       I
+  0.20    -0.8416
+  0.24    -0.7063
+  0.30    -0.5244
+  0.35    -0.3853
+  0.45    -0.1257
+  0.51     0.0251
+  0.60     0.2533
+  0.66     0.4125
+  0.75     0.6745
+  0.80     0.8416
+
+
+
+

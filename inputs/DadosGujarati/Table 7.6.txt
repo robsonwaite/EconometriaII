@@ -1,0 +1,30 @@
+Table 7.6
+Demand for Roses
+
+  YEAR = Year and Quarter
+  Y    = Quantity of Roses Sold, Dozens
+  X2   = Average Wholesale Price of Roses, $ Per Dozen
+  X3   = Average Wholesale Price of Carnations, $ Per Dozen
+  X4   = Average Weekly Family Disposable Income, $ Per Week
+  X5   = Trend Variable Taking Values of 1, 2, and so on, for the Period
+         1971.3 to 1975.3 in the Detroit Metropolitan Area
+
+   YEAR       Y       X2      X3       X4      X5
+  1971.3    11484    2.26    3.49    158.11     1
+  1971.4     9348    2.54    2.85    173.36     2
+  1972.1     8429    3.07    4.06    165.26     3
+  1972.2    10079    2.91    3.64    172.92     4
+  1972.3     9240    2.73    3.21    178.46     5
+  1972.4     8862    2.77    3.66    198.62     6
+  1973.1     6216    3.59    3.76    186.28     7
+  1973.2     8253    3.23    3.49    188.98     8
+  1973.3     8038    2.60    3.13    180.49     9
+  1973.4     7476    2.89    3.20    183.33    10
+  1974.1     5911    3.77    3.65    181.87    11
+  1974.2     7950    3.64    3.60    185.00    12
+  1974.3     6134    2.82    2.94    184.00    13
+  1974.4     5868    2.96    3.12    188.20    14
+  1975.1     3160    4.24    3.58    175.67    15
+  1975.2     5872    3.69    3.53    188.00    16
+
+

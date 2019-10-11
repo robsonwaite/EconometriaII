@@ -1,0 +1,31 @@
+Table 5.6
+GNP and Four Measures of Money Stock, United States, 1970-1983
+
+  YEAR = Year
+  GNP  = GNP, Billion of $
+  M1   = Currency + Demand Deposits + Travelers Checks and Other Checkable
+         Deposits (OCDs), Billion of $
+  M2   = M1 + Overnight RPs and Eurodollars + Money Market Mutual Fund
+         Balances + Money Market Deposit Accounts + Savings and Small
+         Deposits, Billion of $
+  M3   = M2 + Large Time Deposits + Term RPs + Institutional Money Market
+         Mutual Fund, Billion of $
+  L    = M3 + Other Liquid Assets, Billion of $
+
+  YEAR     GNP       M1        M2        M3        L
+  1970     992.7    216.6     628.2     677.5     816.3
+  1971    1077.6    230.8     712.8     776.2     903.1
+  1972    1185.9    252.0     805.2     886.0    1023.0
+  1973    1326.4    265.9     861.0     985.0    1141.7
+  1974    1434.2    277.6     908.5    1070.5    1249.3
+  1975    1549.2    291.2    1023.3    1174.2    1367.9
+  1976    1718.0    310.4    1163.6    1311.9    1516.6
+  1977    1918.3    335.4    1286.7    1472.9    1704.7
+  1978    2163.9    363.1    1389.1    1647.1    1910.6
+  1979    2417.8    389.1    1498.5    1804.8    2117.1
+  1980    2631.7    414.9    1632.6    1990.0    2326.2
+  1981    2957.8    441.9    1796.6    2238.2    2599.8
+  1982    3069.3    480.5    1965.4    2462.5    2870.8
+  1983    3304.8    525.4    2196.3    2710.4    3183.1
+
+

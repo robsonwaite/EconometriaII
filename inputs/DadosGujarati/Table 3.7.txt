@@ -1,0 +1,26 @@
+Table 3.7 - Gold Prices, the Consumer Price Index and the New York Stock
+               Exchange Index, United States, 1977-1991
+
+  YEAR  = Year
+  PRICE = Price of Gold at New York, $ Per Troy Ounce
+  CPI   = Consumer Price Index, 1982-1984=100
+  NYSE  = New York Stock Exchange Index, December 31, 1965=100
+
+  YEAR     PRICE     CPI      NYSE
+  1977    147.98     60.6     53.69
+  1978    193.44     65.2     53.70
+  1979    307.62     72.6     58.32
+  1980    612.51     82.4     68.10
+  1981    459.61     90.9     74.02
+  1982    376.01     96.5     68.93
+  1983    423.83     99.6     92.63
+  1984    360.29    103.9     92.46
+  1985    317.30    107.6    108.90
+  1986    367.87    109.6    136.00
+  1987    446.50    113.6    161.70
+  1988    436.93    118.3    149.91
+  1989    381.28    124.0    180.02
+  1990    384.08    130.7    183.46
+  1991    362.04    136.2    206.33
+
+
