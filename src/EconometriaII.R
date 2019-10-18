@@ -1,5 +1,5 @@
 ##### Econometria II #####
-setwd("D:\\R-codes\\EconometriaII\\DadosGujarati\\DadosGujarati")
+setwd("D:\\R-codes\\EconometriaII\\inputs\\DadosGujarati")
 #### Leitura dos dados (Gujarati, Cap 11)
 ## Tabela 11.1
 ProdComp = as.matrix(read.table("Table 11.1.txt", header = T, sep = "", na.strings = "EMPTY", strip.white = T, row.names = 1))
@@ -19,27 +19,55 @@ colnames(ProdCompFinal) <- colnames(ProdComp)
 ### Regressao Produtividade x Salario
 options(scipen = 999) #desabilita notação cientifica 
 fit = lm(AvCompens ~ AvProdtivity)
-summary(fit)
+summary(fit) #estudar as informações apresentadas aqui.
+
+# teste F (estatistica F) / distribuição F tem dois graus de liberdade'n' e 'm' 
+# t valor / distribuição t tem um grau de liberdade 'n'
+#  p valor :  
+#  Residual Standard error = S : s² = SQE/n-k
 
 plot(AvProdtivity, rstandard(fit))
 
-qt(0.975) # t valor que limita a região de aceitação, > que ele ñ aceita. 
+qt(0.95, df = 7) # t valor que limita a região de aceitação, > que ele ñ aceita. 
 
 
 ## Park Test
 
-res2 <- log(residuals(fit)^2)
+# (Hipotese Ininicial) sigma²i é função da variável explicativa Xi . 
+# A forma funcional: sigma²i = (sigma²)(Xi^Beta)(e^vi)   => sigma² é uma constante
+# Log(sigma²i) = log(sigma²)+log(Xi^Beta)+log(e^vi) 
+# Log(sigma²i) = log(sigma²)+Beta.log(XiBeta)+vi 
+# 
+
+res2 <- log(residuals(fit)^2)  #log(û^2) log dos residuos ao quadrado 
 lnAvP <- log(AvProdtivity)
 
 Park <- lm(res2 ~  lnAvP)
 summary(Park)
 
+# P VALOR > 0.5 , NÃO ACEITA A H0: BETA == 0
+# ASSIM, REJEITA A HIP DE HOMOCEDASTICIDADE ?
+
+
+
 ## Glejser Test
 
-absres <- abs(residuals(fit))
+#  A diferença para o de park são as formas funcionais 
+#  |û| = Beta1 + Beta2 Yi + Ei
+#  (...)
+
+
+
+absres <- abs(residuals(fit)) #valor absoluto do û
 
 Glejser <- lm(absres ~ AvProdtivity)
 summary(Glejser)
+
+
+# P valor = 0,77 > 0.1 -> Homocedasticidade 
+
+
+################ Exercicio
 
 ## Spearman's rank correlation test
 RankCor = read.table("Table 11.2.txt", header = F, sep = "", na.strings = "EMPTY", strip.white = T, dec = ".")
@@ -59,7 +87,21 @@ ttestSpCor <- function(x){
 ttest<- ttest(RankCor[,5:6]) ## Como gl = 8, t nao e signitivativo nem a 10%
 pvalue <- 1 - pt(ttest, nrow(RankCor) - 2)
 
+############ Fim do exercicio
+
+
 ## Goldfeld-Quandt Test
+
+#  Ordene as obs de acordo com os valores de Xi (de ordem crescente)
+#  omita 'c' observação centrais, em que 'c' é especificada a priori. Divida as (n's) obs, ordenados em 2 grupos
+#  cada um c/ n-c/2 obs
+#  Regrida OLS em cada grupo e obtenha SQE1 e SQE2 
+#  Compute a razão Lambda = (SQE2/g.l2) / (SQE1/g.l1)        SQE soma dos quadrados dos residuos
+#  se lambda > F critico, rejeitamos a homocedasticidade.
+
+#  definir o C ? 
+
+
 Table113 <- read.table("Table 11.3.txt", header = T, sep = "", na.strings = "EMPTY", strip.white = T, dec = ".")
 
 # Seguindo a recomendacao, sugerimos c = 4, ou seja, removeremos as 4 observacoes centrais de X e Y.
