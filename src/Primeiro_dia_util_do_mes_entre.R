@@ -22,5 +22,7 @@ P_dia_util_do_mes_entre = function(inicio, fim){
       }
     }
   }
+  dias = as.data.frame(dias)
+  colnames(dias) = c("Data")
   return(dias)
 }
