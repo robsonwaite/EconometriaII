@@ -15,7 +15,7 @@ Italy               8.1      	 3.3
 Japan              13.5    	 4.7
 Mexico              4.7    	 5.2
 Netherlands         7.5    	 3.6
-New Zealand         4.7  	 3.6
+NewZealand         4.7  	 3.6
 Sweden              8.0    	 4.0
 UnitedKingdom       7.5     	 3.9
 UnitedStates        9.0   	 2.1
