@@ -172,7 +172,18 @@
         # cidade pode ser mantida. (B é estatisticamente insignificativo)
         #
 ## Questão 4 ###################################################################
-  ## 4.1.0       
+  ## 4.1.0 Sabendo que lambda é igual (SQR2/gl)/(SQR1/gl)
+    # E que os seguintes valores são dados:
+      SQR1 = 55
+      SQR2 = 140
+      gl = 25
+    # Calculando Lambda
+      lambda = SQR2 / SQR1  # Os gl se cortam - por isso foram omitidos 
+    # Valor Critico de F 
+      qf(.95, df1=25, df2=25)
+    #
+    # Sendo valor de lambda(2.5454) > F(1.9554), podemos rejeitar a hipotese de 
+    # homocedasticidade, é dizer que a heterocedasticidade é muito provavel.
 ## Questão 5 ###################################################################
   ## 5.1.0 Configurações Iniciais ##############################################
     # 5.1.1 Carregando Base de dados -------------------------------------------
