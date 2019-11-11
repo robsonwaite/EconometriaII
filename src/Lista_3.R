@@ -6,12 +6,14 @@
 #<============================================================================>#                                                                            #   
 ## Configurações Gerais - Diretorio - Pasta de dados do Gujarati ###############
   pastaGujarati = "./inputs/DadosGujarati"
+  # Carregando testes ----------------------------------------------------------
+  source("./src/Park.R")    # teste de Park - função
+  source("./src/Glejser.R") # teste de Glejser - função
+  source("./src/Goldfeld-Quandt.R") # teste de Goldfeld-Quandt com k = 2
+  source("./src/White.R") # teste de white com k = 2
 ## Questão 1 ###################################################################
   ## 1.1.0 Configurações Iniciais ##############################################
-    # 1.1.1 Carregando testes --------------------------------------------------
-      source("./src/Park.R")    # teste de Park - função
-      source("./src/Glejser.R") # teste de Glejser - função
-    # 1.1.2 Carregando Base de dados ###########################################
+        # 1.1.2 Carregando Base de dados ###########################################
       # Carregando Dados
         tabela2.8 = read.table(file = paste(pastaGujarati,"Table 2.8.txt", sep = "/"),header = T, stringsAsFactors = F)
   ## 1.2.0 Analise - Total Gasto x Total Gasto com Alimentação  ################
@@ -55,6 +57,19 @@
         # Assim, Pelo teste Glejser podemos aceitar a Hipotese de Homocedasticidade.
         #
     ## 1.3.3 Teste de White ----------------------------------------------------
+      whiteTest = testeWhite(tabela2.8,"FOODEXP","TOTALEXP")
+      # Se o valor do Qui-quadado obtido por meio do valor do teste de white for
+      # maior que o valor critico do qui-quadrado ao nivel escolhido de signi-
+      # -ficancia, a conclusão é de que há heterocedasticidade
+      Vcrit = qchisq(0.95,2)  
+      # Logo que o valor do qui-quadrado obtido(20.34) >> ao valor critico do
+      # qui-quadrado(5.99), existe prova estatistica para concluir que há
+      # heterocedasticidade.
+      whiteTest > qchisq(0.95,2) 
+      # O p-value do teste é muito pequeno, corroborando ao resultado acima.
+      pvalueWhite <- 1-pchisq(whiteTest,2) 
+        
+        
 ## Questão 2 ###################################################################
   ## 2.1.0 Configurações Iniciais ##############################################
     # 2.1.1 Carregando Base de dados -------------------------------------------
