@@ -5,80 +5,105 @@
 #     Descrição: Exercicios                                                    #           
 #<============================================================================>#                                                                            #   
 ## Configurações Gerais - Diretorio - Pasta de dados do Gujarati ###############
-  pastaGujarati = "./inputs/DadosGujarati"
+    pastaGujarati = "./inputs/DadosGujarati"
   # Carregando testes ----------------------------------------------------------
-  source("./src/Park.R")    # teste de Park - função
-  source("./src/Glejser.R") # teste de Glejser - função
-  source("./src/Goldfeld-Quandt.R") # teste de Goldfeld-Quandt com k = 2
-  source("./src/White.R") # teste de white com k = 2
+    source("./src/Park.R")    # teste de Park - função
+    source("./src/Glejser.R") # teste de Glejser - função
+    source("./src/Goldfeld-Quandt.R") # teste de Goldfeld-Quandt com k = 2
+    source("./src/White.R") # teste de white com k = 2
+  # Instalando e carregando pacotes --------------------------------------------
+    if(!"sandwich" %in% installed.packages()[,1]) install.packages("sandwich")
+    library(sandwich, quietly = T,verbose = F)
+    if(!"lmtest" %in% installed.packages()[,1]) install.packages("lmtest")
+    library(lmtest, quietly = T, verbose = F)
 ## Questão 1 ###################################################################
   ## 1.1.0 Configurações Iniciais ##############################################
-        # 1.1.2 Carregando Base de dados ###########################################
+    # 1.1.1 Carregando Base de dados ###########################################
       # Carregando Dados
         tabela2.8 = read.table(file = paste(pastaGujarati,"Table 2.8.txt", sep = "/"),header = T, stringsAsFactors = F)
   ## 1.2.0 Analise - Total Gasto x Total Gasto com Alimentação  ################
     # 1.2.1 Regressão ----------------------------------------------------------
-      fit = lm(formula = TOTALEXP ~ FOODEXP, data = tabela2.8)
+      fit = lm(formula = FOODEXP ~ TOTALEXP, data = tabela2.8)
+      # Grafico dos Resíduos
+      plot(x = (summaryFit$residuals), # Valores de y (no grafico)
+           xlab = "Resíduos", # Legenda de y
+           type = "p", # tipo de grafico - pontos
+           main = "Análise de Resíduos", # Titulo do grafico
+           col = "dark red", # Cor dos Plots
+           pch=20, # desenho dos "plots"
+           cex=1  # tamanho dos "pontos" plotados
+      )
+      abline(h=0, lty=2)
     # 1.2.2 Sumario ------------------------------------------------------------
       summaryFit = summary(fit)
     # 1.2.3 Grafico residuos x total gasto - Analise Informal ------------------
-      plot(y = (summaryFit$residuals^2), # Valores de X
-           ylab = "Resíduos²", # Legenda de X
-           x = tabela2.8$TOTALEXP, # Valores de Y
-           xlab = "Gasto Total", # Legenda de Y
+      plot(y = (summaryFit$residuals), # Valores de y (no grafico)
+           ylab = "Resíduos", # Legenda de y
+           x = tabela2.8$TOTALEXP, # Valores de x
+           xlab = "Gasto Total", # Legenda de x
            type = "p", # tipo de grafico - pontos
-           main = "Análise de Resíduos - Gastos Total x Resíduos²", # Titulo do grafico
+           main = "Análise de Resíduos - Gastos Total x Resíduos", # Titulo do grafico
            col = "dark red", # Cor dos Plots
            pch=20, # desenho dos "plots"
            cex=1  # tamanho dos "pontos" plotados
            )
+      abline(h=0, lty=2)
   ## 1.3.0 Analise Formal ------------------------------------------------------
-    ## 1.3.1 Teste de Park -----------------------------------------------------
+    # 1.3.1 Teste de Park ------------------------------------------------------
         park = testePark(fit, tabela2.8$TOTALEXP)
         summary(park)
-        #
-        # Segundo o teste park, se B for est .significativo é indicativo de heterocedasticidade
-        # H0: B = 0 -> Insignificante -> Homocedasticidade.
-        # H1: B != 0 -> Significante -> Heterocedasticidade.
-        #
-        # Sendo p-value(0.1871) > 0.025. A H0 é estatisticamente significativa
-        # Assim, Pelo teste Park podemos aceitar a Hipotese de Homocedasticidade.
-        #
-    ## 1.3.2 Teste de Glejser --------------------------------------------------
+      #
+      # Segundo o teste park, se B for est .significativo é indicativo 
+      # de heterocedasticidade
+      # H0: B = 0 -> Insignificante -> Homocedasticidade.
+      # H1: B != 0 -> Significante -> Heterocedasticidade.
+      #
+      # Sendo p-value(0.0206) < 0.025. A H0 é estatisticamente insignificativa
+      # Assim, Pelo t. Park podemos rejeitar a Hipotese de Homocedasticidade
+      #
+    # 1.3.2 Teste de Glejser ---------------------------------------------------
         glejser = testeGlejser(fit, tabela2.8$TOTALEXP)
         summary(glejser)
-        #
-        # O teste Glejser segue o mesmo espirito do Park,
-        # se B for est. significativo é indicativo de heterocedasticidade
-        # H0: B = 0 -> Insignificante -> Homocedasticidade.
-        # H1: B != 0 -> Significante -> Heterocedasticidade.
-        #
-        # Sendo p-value(0.3223) > 0.025. A H0 é estatisticamente significativa
-        # Assim, Pelo teste Glejser podemos aceitar a Hipotese de Homocedasticidade.
-        #
-    ## 1.3.3 Teste de White ----------------------------------------------------
-      whiteTest = testeWhite(tabela2.8,"FOODEXP","TOTALEXP")
+      #
+      # O teste Glejser segue o mesmo espirito do Park,
+      # se B for est. significativo é indicativo de heterocedasticidade
+      # H0: B = 0 -> Insignificante -> Homocedasticidade.
+      # H1: B != 0 -> Significante -> Heterocedasticidade.
+      #
+      # Sendo p-value(0.00576) < 0.025. A H0 é estatisticamente significativa
+      # Assim, Pelo t. Glejser podemos rejeitar a Hipotese de Homocedasticidade
+      #
+    # 1.3.3 Teste de White -----------------------------------------------------
+        whiteTest = testeWhite(fit,tabela2.8,"TOTALEXP","FOODEXP")
       # Se o valor do Qui-quadado obtido por meio do valor do teste de white for
       # maior que o valor critico do qui-quadrado ao nivel escolhido de signi-
-      # -ficancia, a conclusão é de que há heterocedasticidade
-      Vcrit = qchisq(0.95,2)  
-      # Logo que o valor do qui-quadrado obtido(20.34) >> ao valor critico do
+      # - ficancia, a conclusão é de que há heterocedasticidade
+        Vcrit = qchisq(0.95,2)  
+      # Logo que o valor do qui-quadrado obtido(7.37) >> ao valor critico do
       # qui-quadrado(5.99), existe prova estatistica para concluir que há
       # heterocedasticidade.
-      whiteTest > qchisq(0.95,2) 
-      # O p-value do teste é muito pequeno, corroborando ao resultado acima.
-      pvalueWhite <- 1-pchisq(whiteTest,2) 
+        whiteTest > qchisq(0.95,2) 
+      # O p-value(0.02504) do teste é 'muito pequeno', corroborando ao resultado acima.
+        pvalueWhite <- 1-pchisq(whiteTest,2) 
+      #
+    # 1.3.4 EP consistente de White --------------------------------------------
         
-        
+      coeftest(fit, vcov = vcovHC(fit, type="HC1"))
+      # OLS EP = 0.07832
+      # White Const EP = 0.074254  
+      # Variação = 0.004066
+      
+      # Com uma variação tão pequena, não valerá a pena corrigir o EP
+          
 ## Questão 2 ###################################################################
   ## 2.1.0 Configurações Iniciais ##############################################
     # 2.1.1 Carregando Base de dados -------------------------------------------
-      tabela11.7 = read.table(file = paste(pastaGujarati,"Table 11.7.txt", sep = "/"),header = T, stringsAsFactors = F)
+        tabela11.7 = read.table(file = paste(pastaGujarati,"Table 11.7.txt", sep = "/"),header = T, stringsAsFactors = F)
   ## 2.2.0 Analise do Modelo Proposto ##########################################
     # 2.2.1 Regressão ----------------------------------------------------------
-      fit2 = lm(formula = MPG ~ SP + HP + WT, data = tabela11.7)
+        fit2 = lm(formula = MPG ~ SP + HP + WT, data = tabela11.7)
     # 2.2.2 Analisando a regressão --------------------------------------------- 
-      summaryFit2 = summary(fit2)
+        summaryFit2 = summary(fit2)
       # Considerando que na Hipotese Nula, os parametros 
       # são estatisticamente insignificantes, isto é, H0: SP = HP = WT = 0.
       # Então, para:
@@ -86,26 +111,69 @@
       # - HP temos um p-value(2.19e-06) << 0.025,logo a H0 é est. insignificante 
       # - WT temos um p-value(4.64e-16) << 0.025,logo a H0 é est. insignificante
       #
-      # Portanto, pode-se dizer com base nos dados, que existe sentido economico
-      # nas variaveis acima, e na regressão como um todo - 
-      # p-value(2.2e-16) << 0.025.
+      # Portanto, pode-se dizer com base nos dados, que os parametros são signi-
+      # - ficativos. 
+      # 
+      # Sentido Economico 
+      # SP(Velocidade) -> Quanto maior, maior o gasto -> Negativo - OK
+      # HP(Potencia)  -> Quanto maior, menor o gasto -> Positivo - OK
+      # WT(PESO) -> Quanto maior, maior o gasto -> Negativo - OK
+      #  
   ## 2.3.0 Heterocedasticidade #################################################
     # Em dados de corte transversal envolvendo unidades heterogêneas,
     # a heterocedasticidade pode ser a regra e não a exceção.
     # 2.3.1 Grafico de Resíduos x MPG - Analise Informal -----------------------
-      plot(y = (summaryFit2$residuals^2), # Valores de X
-           ylab = "Resíduos²", # Legenda de X
-           x = tabela11.7$MPG, # Valores de Y
-           xlab = "MPG", # Legenda de Y
+      plot(y = (summaryFit2$residuals), # Valores de y
+           ylab = "Resíduos", # Legenda de y
+           x = tabela11.7$MPG, # Valores de x
+           xlab = "MPG", # Legenda de x
            type = "p", # tipo de grafico - pontos
-           main = "Análise de Resíduos - MPG x Resíduos²", # Titulo do grafico
+           main = "Análise de Resíduos - MPG x Resíduos", # Titulo do grafico
            col = "blue", # Cor dos Plots
            pch=20, # desenho dos "plots"
            cex=1  # tamanho dos "pontos" plotados
       )
+      abline(h=0, lty=2)
       # A analise grafica 'pode' indicar uma linearidade  
     # 2.3.2 Teste de White - Analise Formal ------------------------------------
+      # Construindo colunas das variaveis ao cubo.
+      tabela11.7$SP2 = tabela11.7$SP^2
+      tabela11.7$HP2 = tabela11.7$HP^2
+      tabela11.7$WT2 = tabela11.7$WT^2
+      # Regressão 
+      WhiteTest2 <- lm(formula = (resid(fit2)^2) ~ SP + HP + WT + 
+                           SP2 + HP2 + WT2 + 
+                           (SP*HP) + (SP*WT) + (HP*WT),
+                            data = tabela11.7
+                         )
+        NRsquare2 = nrow(tabela11.7)*(summary(WhiteTest2)$r.squared)
+      # Se o valor do Qui-quadado obtido por meio do valor do teste de white for
+      # maior que o valor critico do qui-quadrado ao nivel escolhido de signi-
+      # -ficancia, a conclusão é de que há heterocedasticidade
+        Vcrit2 = qchisq(0.95,9) # Logo que existem 9 regressores, o grau de liber-
+      # -dade será igual a 9.
+      # Logo que o valor do qui-quadrado obtido(71.77) >> ao valor critico do
+      # qui-quadrado(16.91), existe prova estatistica para concluir que há
+      # heterocedasticidade.
+        NRsquare2 > qchisq(0.95,9) 
+      # O p-value do teste é muito pequeno, corroborando ao resultado acima.
+       pvalueWhite2 <- 1-pchisq(NRsquare2,9) 
   ## 2.4.0 Transformação dos dados #############################################
+    # 2.4.1 Transformação Logaritmica ##########################################
+      fit2.1 = lm(formula = log(MPG) ~ log(SP) + log(HP) + log(WT), data = tabela11.7)
+    # 2.4.2 Analisando a regressão --------------------------------------------- 
+        summaryFit2 = summary(fit2.1)
+      # Considerando que na Hipotese Nula, os parametros 
+      # são estatisticamente insignificantes, isto é, H0: SP = HP = WT = 0.
+      # Então, para:
+      #  
+      # - Log(SP) temos um p-value(0.3984) > 0.025,logo a H0 é est. significante
+      # - Log(HP) temos um p-value(0.0875) > 0.025,logo a H0 é est. significante 
+      # - Log(WT) temos um p-value(0.0118) < 0.025,logo a H0 é est. insignificante
+      #
+      # Portanto, pode-se dizer com base nos dados, que existe sentido economico
+      # na variavel Log(WT), e as demais são insignificantes. 
+      # 
 ## Questão 3 ###################################################################
   ## 3.1.0 Configurações Iniciais ##############################################
     # 3.1.1 Carregando Base de dados -------------------------------------------

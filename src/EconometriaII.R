@@ -150,7 +150,7 @@ criticalChiBGPp <- pchisq(BigThetaBPGp,1) ## o valor associado a 5% na chi-squar
 
 ### Weighted Least Squares (Table 11.1)
 ## Tabela 11.1
-ProdComp = as.matrix(read.table("Table 11.1.txt", header = T, sep = "", na.strings = "EMPTY",
+ProdComp = as.matrix(read.table(paste(pastaGujarati,"Table 11.1.txt", sep = "/"), header = T, sep = "", na.strings = "EMPTY",
                                 strip.white = T, row.names = 1))
 AvProdtivity <- ProdComp[13, ]
 Sd <- ProdComp[12, ]
