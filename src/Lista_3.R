@@ -16,6 +16,10 @@
     library(sandwich, quietly = T,verbose = F)
     if(!"lmtest" %in% installed.packages()[,1]) install.packages("lmtest")
     library(lmtest, quietly = T, verbose = F)
+    if(!"ggplot2" %in% installed.packages()[,1]) install.packages("ggplot2")
+    library(ggplot2, quietly = T, verbose = F)
+    if(!"gridExtra" %in% installed.packages()[,1]) install.packages("gridExtra")
+    library(gridExtra, quietly = T, verbose = F)
 ## Questão 1 ###################################################################
   ## 1.1.0 Configurações Iniciais ##############################################
     # 1.1.1 Carregando Base de dados ###########################################
@@ -134,14 +138,14 @@
            cex=1  # tamanho dos "pontos" plotados
       )
       abline(h=0, lty=2)
-      # A analise grafica 'pode' indicar uma linearidade  
+    # A analise grafica 'pode' indicar uma linearidade  
     # 2.3.2 Teste de White - Analise Formal ------------------------------------
       # Construindo colunas das variaveis ao cubo.
-      tabela11.7$SP2 = tabela11.7$SP^2
-      tabela11.7$HP2 = tabela11.7$HP^2
-      tabela11.7$WT2 = tabela11.7$WT^2
-      # Regressão 
-      WhiteTest2 <- lm(formula = (resid(fit2)^2) ~ SP + HP + WT + 
+        tabela11.7$SP2 = tabela11.7$SP^2
+        tabela11.7$HP2 = tabela11.7$HP^2
+        tabela11.7$WT2 = tabela11.7$WT^2
+      # Regressão de White
+        WhiteTest2 <- lm(formula = (resid(fit2)^2) ~ SP + HP + WT + 
                            SP2 + HP2 + WT2 + 
                            (SP*HP) + (SP*WT) + (HP*WT),
                             data = tabela11.7
@@ -152,28 +156,109 @@
       # -ficancia, a conclusão é de que há heterocedasticidade
         Vcrit2 = qchisq(0.95,9) # Logo que existem 9 regressores, o grau de liber-
       # -dade será igual a 9.
-      # Logo que o valor do qui-quadrado obtido(71.77) >> ao valor critico do
+      # Logo que o valor do qui-quadrado obtido(37.65) >> ao valor critico do
       # qui-quadrado(16.91), existe prova estatistica para concluir que há
       # heterocedasticidade.
         NRsquare2 > qchisq(0.95,9) 
       # O p-value do teste é muito pequeno, corroborando ao resultado acima.
        pvalueWhite2 <- 1-pchisq(NRsquare2,9) 
   ## 2.4.0 Transformação dos dados #############################################
-    # 2.4.1 Transformação Logaritmica ##########################################
-      fit2.1 = lm(formula = log(MPG) ~ log(SP) + log(HP) + log(WT), data = tabela11.7)
-    # 2.4.2 Analisando a regressão --------------------------------------------- 
-        summaryFit2 = summary(fit2.1)
-      # Considerando que na Hipotese Nula, os parametros 
-      # são estatisticamente insignificantes, isto é, H0: SP = HP = WT = 0.
-      # Então, para:
-      #  
-      # - Log(SP) temos um p-value(0.3984) > 0.025,logo a H0 é est. significante
-      # - Log(HP) temos um p-value(0.0875) > 0.025,logo a H0 é est. significante 
-      # - Log(WT) temos um p-value(0.0118) < 0.025,logo a H0 é est. insignificante
-      #
-      # Portanto, pode-se dizer com base nos dados, que existe sentido economico
-      # na variavel Log(WT), e as demais são insignificantes. 
-      # 
+    # 2.4.1 Busca pela forma funcional da Variancia ----------------------------
+         par(mfrow=c(3, 2)) # Gerar os graficos em um mesmo 'painel' 3x2
+         plot(tabela11.7$SP, resid(fit2))
+         abline(h=0, lty=2)
+         plot(tabela11.7$HP, resid(fit2))
+         abline(h=0, lty=2)
+         plot(tabela11.7$WT, resid(fit2))
+         abline(h=0, lty=2)
+         plot(tabela11.7$SP, resid(fit2)^2)
+         abline(h=0, lty=2)
+         plot(tabela11.7$HP, resid(fit2)^2)
+         abline(h=0, lty=2)
+         plot(tabela11.7$WT, resid(fit2)^2)
+       # Não se pode perceber nenhuma forma funcional no graficos.
+         par(mfrow=c(1,1)) #Voltando a apresentação normal de dados.
+         plot(tabela11.7$SP, resid(fit2)^2)
+         abline(h=0, lty=2)
+       # Adicionando a coluna res² na tabela.
+         res = resid(fit2)^2
+         tabela11.7$res = res
+         
+       # Melhorando a analise com ggplot2
+       
+         gridExtra::grid.arrange(nrow = 2, ncol = 1,
+          ggplot2::ggplot(tabela11.7 , aes(SP , res)) + 
+           geom_point() + 
+           geom_smooth(method=lm) +
+            theme(axis.title.x=element_blank(),
+                  axis.text.x=element_blank(),
+                  axis.ticks.x=element_blank()),
+         
+         ggplot2::ggplot(tabela11.7 , aes(SP , res)) + 
+           geom_point() + 
+           geom_smooth()
+         )
+    # 2.4.2 Transformação Logaritmica ------------------------------------------
+      # Adicionando novas colunas de dados 
+        tabela11.7$logMPG = log(tabela11.7$MPG)
+        tabela11.7$logSP = log(tabela11.7$SP)
+        tabela11.7$logHP = log(tabela11.7$HP)
+        tabela11.7$logWT = log(tabela11.7$WT)
+      # Nova regressão
+        fit2.1 = lm(formula = logMPG ~ logSP + logHP + logWT, data = tabela11.7)
+    # 2.4.3 Analisando a regressão --------------------------------------------- 
+        summaryFit2.1 = summary(fit2.1)
+    # 2.4.4 Teste de White depois da transformação logaritmitca ---------------- 
+      # Adicionando novas colunas de dados
+        tabela11.7$logres2 = resid(fit2.1)^2 
+        tabela11.7$logSP2 = tabela11.7$logSP^2
+        tabela11.7$logHP2 = tabela11.7$logHP^2
+        tabela11.7$logWT2 = tabela11.7$logWT^2
+      # Regressão de white
+        WhiteTest2.1 <- lm(formula = logres2 ~ logSP + logHP + logWT + 
+                           logSP2 + logHP2 + logWT2 + 
+                           (logSP*logHP) + (logSP*logWT) + (logHP*logWT),
+                         data = tabela11.7
+        )
+        NRsquare2.1 = nrow(tabela11.7)*(summary(WhiteTest2.1)$r.squared)
+      # Novamente se o valor do Qui-quadado obtido por meio do valor do teste 
+      # de white for maior que o valor critico do qui-quadrado ao nivel 
+      # escolhido de significancia, a conclusão é de que há heterocedasticidade
+        Vcrit2 = qchisq(0.95,9) # Logo que existem 9 regressores, o grau de liber-
+      # -dade será igual a 9.
+      # Como o valor do qui-quadrado obtido(21.62) >> ao valor critico do
+      # qui-quadrado(16.91), existe prova estatistica para concluir que há
+      # heterocedasticidade, a transformação Logaritmica não a removeu.
+        NRsquare2.1 > qchisq(0.95,9) 
+      # O p-value do teste pode ser considerado pequeno (0.01), 
+      # corroborando ao resultado acima.
+        pvalueWhite2.1 <- 1-pchisq(NRsquare2.1,9)
+    # 2.4.5 Considerando outra transformação -----------------------------------
+      # Supondo que exista alguma relação de liner entre SP e os residuos.
+        # Regressão com valores dividos por SP (O HP talvez tb fosse um cand.)
+          fit2.2 = lm(formula = MPG ~ SP + HP + WT, data = tabela11.7, weights = 1/SP)
+        # Analisando a regressão
+          summaryFit2.2 = summary(fit2.2) 
+        # Regressão de White
+          resfi2.3 = resid(fit2.2)^2
+          WhiteTest2.2 <- lm(formula = resfi2.3 ~ SP + HP + WT + 
+                             SP2 + HP2 + WT2 + 
+                             (SP*HP) + (SP*WT) + (HP*WT),
+                           data = tabela11.7
+          )
+          NRsquare2.2 = nrow(tabela11.7)*(summary(WhiteTest2.2)$r.squared)
+        # Se o valor do Qui-quadado obtido por meio do valor do teste de white for
+        # maior que o valor critico do qui-quadrado ao nivel escolhido de signi-
+        # -ficancia, a conclusão é de que há heterocedasticidade
+         Vcrit2 = qchisq(0.95,9) # Logo que existem 9 regressores, o grau de liber-
+        # -dade será igual a 9.
+        # Logo que o valor do qui-quadrado obtido(37.64) >> ao valor critico do
+        # qui-quadrado(16.91), existe prova estatistica para concluir que há
+        # heterocedasticidade - novamente a tranf não surtiu efeito.
+          NRsquare2.2 > qchisq(0.95,9) 
+        # O p-value do teste é muito pequeno, corroborando ao resultado acima.
+          pvalueWhite2.2 <- 1-pchisq(NRsquare2.2,9)
+        #
 ## Questão 3 ###################################################################
   ## 3.1.0 Configurações Iniciais ##############################################
     # 3.1.1 Carregando Base de dados -------------------------------------------
@@ -182,6 +267,14 @@
       colnames(tabela11.8) = c("years","medianSalary")
       tabela11.8["medianSalary"] = tabela11.8["medianSalary"]/1000
   ## 3.2.0 Geração e Comparação de Modelos #####################################
+    # Gerando Grafico Mediana dos Salários vs. Anos de Experiência
+      ggplot2::ggplot(tabela11.8,(aes(years, medianSalary)))+
+        geom_point()  + 
+        geom_smooth(method=lm) 
+       
+              
+             
+      
     # 3.2.1 - Modelo 1 - MedianSalary = B1 + B2*Years + Ui ---------------------
         fit3.1 = lm(formula = medianSalary ~ years, data = tabela11.8)
     # 3.2.2 - Modelo 2 - MedianSalary = B1 + B2*Years + B3*Years² + Ui ---------
