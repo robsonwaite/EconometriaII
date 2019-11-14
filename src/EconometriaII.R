@@ -159,7 +159,7 @@ EmplSize <- seq(1,9,1)
 WLSReg <- lm(AvCompens ~ 0 + rep(1,9) + EmplSize, weights = 1/Sd) ## 0 retira o intercepto do modelo, como é o caso aqui.
 summary(WLSReg)
 
-## Alternativa ao método anterior
+## Alternativa ao método anterior 
 Table114 <- read.table("Table 11.4.txt", header = T, sep = "", na.strings = "EMPTY",
                        strip.white = T)
 Sdt114 <- 1/Table114[,3]
@@ -259,6 +259,8 @@ n = 10
 rho = 0.7
 u0 = 5
 ResU <- MCAutcRes(n,u0,rho)
+
+plot(ResU, type = "b")
 
 beta1 = 1
 beta2 = 0.8
