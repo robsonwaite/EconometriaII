@@ -270,11 +270,7 @@
     # Gerando Grafico Mediana dos Salários vs. Anos de Experiência
       ggplot2::ggplot(tabela11.8,(aes(years, medianSalary)))+
         geom_point()  + 
-        geom_smooth(method=lm) 
-       
-              
-             
-      
+        geom_smooth(method=lm)
     # 3.2.1 - Modelo 1 - MedianSalary = B1 + B2*Years + Ui ---------------------
         fit3.1 = lm(formula = medianSalary ~ years, data = tabela11.8)
     # 3.2.2 - Modelo 2 - MedianSalary = B1 + B2*Years + B3*Years² + Ui ---------
@@ -319,13 +315,23 @@
         )
       # Analise grafica não indica heterocedasticidade
       #
-      # Analise Formal
+      # Analise Formal - Teste Park
         park3.1 = testePark(fit3.1, tabela11.8$medianSalary)
         summary(park3.1)
         # Considerando H0: B = 0, temos um p-value(0.669) > 0.025, a hipotese
         # nula então é estatisticamente significativa, a hipotese de homocedasti
         # cidade pode ser mantida.
-        #
+      # Analise Formal - Teste White
+        testeWhite3 = testeWhite(fit3.1,tabela11.8,"years","medianSalary")
+        # Se o valor do Qui-quadado obtido por meio do valor do teste de white for
+        # maior que o valor critico do qui-quadrado ao nivel escolhido de signi-
+        # -ficancia, a conclusão é de que há heterocedasticidade
+        Vcrit3 = qchisq(0.95,2) # Logo que existem 9 regressores, o grau de liber-
+        # -dade será igual a 9.
+        # Logo que o valor do qui-quadrado obtido(11.41) > ao valor critico do
+        # qui-quadrado(5.99), existe prova estatistica para concluir que há
+        # heterocedasticidade.
+        testeWhite3 > qchisq(0.95,2)
     # 3.3.2 Existencia de Heterocedasticidade no Modelo 02 ---------------------
       # Analise Grafica Informal
         plot(y = (summaryFit3.2$residuals^2), # Valores de X
@@ -347,6 +353,20 @@
         # nula então é estatisticamente significativa, a hipotese de homocedasti
         # cidade pode ser mantida. (B é estatisticamente insignificativo)
         #
+        # Analise Formal - Teste White
+          WhiteTest3.2 <- lm(formula = (resid(fit3.2)^2) ~ years + years2+ I(years^2)+I(years2^2)+I(years*years2),
+                             data = tabela11.8
+          )
+          NRsquare3.2 = nrow(tabela11.8)*(summary(WhiteTest3.2)$r.squared)
+        # Se o valor do Qui-quadado obtido por meio do valor do teste de white for
+        # maior que o valor critico do qui-quadrado ao nivel escolhido de signi-
+        # -ficancia, a conclusão é de que há heterocedasticidade
+          Vcrit3.2 = qchisq(0.95,5) # Logo que existem 5 regressores, o grau de liber-
+        # -dade será igual a 5.
+        # Logo que o valor do qui-quadrado obtido(8.51) < ao valor critico do
+        # qui-quadrado(11.07), existe prova estatistica para concluir que 'não' 
+        # há heterocedasticidade.
+          NRsquare3.2 > qchisq(0.95,5) #(FALSE)
 ## Questão 4 ###################################################################
   ## 4.1.0 Sabendo que lambda é igual (SQR2/gl)/(SQR1/gl)
     # E que os seguintes valores são dados:
