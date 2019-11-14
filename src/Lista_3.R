@@ -384,8 +384,72 @@
   ## 5.1.0 Configurações Iniciais ##############################################
     # 5.1.1 Carregando Base de dados -------------------------------------------
       tabela11.9 = read.table(file = paste(pastaGujarati,"Table 11.9.9.txt", sep = "/"),header = T, stringsAsFactors = F)          
-      # Para leitura correta do arquivo foi necessario juntar o nome "New Zeland" 
+      # Para leitura correta do arquivo foi necessario juntar o nome "New Zeland"
+    # 5.1.2 Tratando dados (Dispensavel) -> Obj: colocar nome no grafico
+      rnames = tabela11.9$COUNTRY # gerado vetor de nome dos paises
+      rownames(tabela11.9) = rnames # atribuindo nome as linhas 
+      tabela11.9$COUNTRY = NULL # removendo coluna de nome
+  ## 5.2.0 Grafico de Dispersão ################################################  
+    plot(y = tabela11.9$Y, # Valores de Y
+         ylab = "Percentual anual das variações nos preços", # Legenda de X
+         x = tabela11.9$X, # Valores de X
+         xlab = "Percentual anual dos preços das ações", # Legenda de Y
+         type = "p", # tipo de grafico - pontos
+         main = "Variação Percentual - Preços  x Preços das ações", # Titulo do grafico
+         col = "Black", # Cor dos Plots
+         pch=20, # desenho dos "plots"
+         cex=1  # tamanho dos "pontos" plotados
+        )
+    # Adicionar nome dos paises aos pontos   
+      with(tabela11.9, text(Y~X, labels = row.names(tabela11.9), pos = 2))
+      #
+      # Pela analise do grafico percebe-se que de fato Chile é um
+      # outliner
+      #
+  ## 5.3.0 Modelo - Preço de Ações x Preço #####################################
+    # 5.3.1 Regressão ----------------------------------------------------------
+      fit5 = lm(formula = Y ~X, data = tabela11.9)
+    # 5.3.2 Analise dos Residuos -----------------------------------------------
+      summaryFit5 = summary(fit5)
+      # Analise Grafica Informal -----------------------------------------------
+        plot(y = (summaryFit5$residuals^2), # Valores de Y
+             ylab = "Resíduos²", # Legenda de Y
+             x = tabela11.9$Y, # Valores de X
+             xlab = "Preço das Ações", # Legenda de X
+             type = "p", # tipo de grafico - pontos
+             main = "Análise de Resíduos - Variação do Preço das Ações x Resíduos²", # Titulo do grafico
+             col = "purple", # Cor dos Plots
+             pch=20, # desenho dos "plots"
+             cex=1  # tamanho dos "pontos" plotados
+        )
+      # A analise grafica indica heterocedasticidade - uma vez que pode ser 
+      # identificada uma parabola.
+    # 5.3.3 Tratamento de dados - Modelo 2 - ###################################
+      # Processo de remoção - mais trabalhoso do que o necessario, levando em 
+      # conta que só é desejado a remoção de uma linha.
+      rlinhas = c("Chile")
+      tabela11.9 = tabela11.9[!(row.names(tabela11.9) %in% rlinhas),] 
+    # 5.3.1 Regressão ----------------------------------------------------------
+      fit5.1 = lm(formula = Y ~X, data = tabela11.9)
+    # 5.3.2 Analise dos Residuos -----------------------------------------------
+      summaryFit5.1 = summary(fit5.1)
+      # Analise Grafica Informal -----------------------------------------------
+      plot(y = (summaryFit5.1$residuals^2), # Valores de Y
+           ylab = "Resíduos²", # Legenda de Y
+           x = tabela11.9$Y, # Valores de X
+           xlab = "Preço das Ações", # Legenda de X
+           type = "p", # tipo de grafico - pontos
+           main = "Análise de Resíduos Tratados - Variação do Preço das Ações x Resíduos²", # Titulo do grafico
+           col = "cyan4", # Cor dos Plots
+           pch=20, # desenho dos "plots"
+           cex=1  # tamanho dos "pontos" plotados
+      )
+      # A analise grafica indica heterocedasticidade - uma vez que pode ser 
+      # identificada uma parabola, ainda mais claramente.
         
+        
+        
+       
         
         
         
