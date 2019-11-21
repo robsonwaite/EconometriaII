@@ -33,7 +33,7 @@ qt(0.95, df = 7) # t valor que limita a região de aceitação, > que ele ñ ace
 
 ## Park Test
 
-# (Hipotese Ininicial) sigma²i é função da variável explicativa Xi . 
+# (Hipotese Inicial) sigma²i é função da variável explicativa Xi . 
 # A forma funcional: sigma²i = (sigma²)(Xi^Beta)(e^vi)   => sigma² é uma constante
 # Log(sigma²i) = log(sigma²)+log(Xi^Beta)+log(e^vi) 
 # Log(sigma²i) = log(sigma²)+Beta.log(XiBeta)+vi 
@@ -45,9 +45,7 @@ lnAvP <- log(AvProdtivity)
 Park <- lm(res2 ~  lnAvP)
 summary(Park)
 
-# P VALOR > 0.5 , NÃO ACEITA A H0: BETA == 0
-# ASSIM, REJEITA A HIP DE HOMOCEDASTICIDADE ?
-
+# P VALOR > 0.5 , ACEITA A H0: BETA == 0
 
 
 ## Glejser Test
@@ -133,9 +131,9 @@ BPGReg <- lm(BPGY ~ BPGX)
 # step 2
 sigmatilde <- sum(residuals(BPGReg)^2)/nrow(Table113)
 # step 3
-BPGp <- residuals(BPGReg)^2/sigmatilde
+BPGp <- residuals(BPGReg)^2/sigmatilde # vetor poderado pelo sigmatil 
 # step 4 - Zi será descrito como Xi no exemplo
-BPGpReg <- lm(BPGp ~ BPGX)
+BPGpReg <- lm(BPGp ~ BPGX) # é o candidato ao z.
 # step 5 - SQT = SQR + SQE
 BPGpSQT <- sum((BPGp - mean(BPGp))^2)
 BPGpSQE <- sum(residuals(BPGpReg)^2)
