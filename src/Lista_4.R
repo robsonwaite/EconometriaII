@@ -139,8 +139,9 @@
       # A estatistica d = 1.296
       
     # B)  
+      
       ut = c()
-      ut[1] = 0.9*17 + Et[1] # u0 = 10
+      ut[1] = 0.9*17 + Et[1] # u0 = 17
       for(i in 2:10){
         ut[i] = 0.9*ut[i - 1] + Et[i]
       } 
@@ -179,14 +180,111 @@
         }
       
         par(mfrow = c(4,1))
-        plot(coeficienteC,type = "o", main = "Coeficiente Constante")
-        plot(coeficienteX,type = "o", main = "Coeficiente X")
-        plot(r2,type = "o", main = "Coef de Ajuste")
-        plot(dw,type = "o", main = "Estatistica de Teste")
+        plot(coeficienteC,type = "p", main = "Coeficiente Constante")
+        plot(coeficienteX,type = "p", main = "Coeficiente X")
+        plot(r2,type = "p", main = "Coef de Ajuste")
+        plot(dw,type = "p", main = "Estatistica de Teste")
       
     # C) 
-          
+        # Monte Carlo
+        
+        coeficienteX <- c()
+        coeficienteC <- c()
+        r2 <- c()
+        dw <- c()
+        
+        for(j in 1:10){
+          for(i in 1:10){
+            if(i == 1){ 
+              ut[i] <- 0.3*17 + rnorm(1)
+            } else{
+              ut[i] <- 0.3*ut[i - 1] + rnorm(1)
+            }
+          }
+          Yt <- 3 + 0.5*Xt + ut
+          mod <- lm(Yt ~ Xt)
+          coeficienteC[j] <- coef(mod)[["(Intercept)"]]
+          coeficienteX[j] <- coef(mod)[["Xt"]]
+          r2[j] <- summary(mod)$r.squared
+          dw[j] <- lmtest::dwtest(mod)$statistic
+        }
+        
+        par(mfrow = c(4,1))
+        plot(coeficienteC,type = "p", main = "Coeficiente Constante")
+        plot(coeficienteX,type = "p", main = "Coeficiente X")
+        plot(r2,type = "p", main = "Coef de Ajuste")
+        plot(dw,type = "p", main = "Estatistica de Teste")
+        
             
       
 # Questão 04 ###################################################################
+    # Leitura dos dados
+      tabela12.9 = read.table("Table 12.9.txt", skip = 8, header = T, stringsAsFactors = F)
+    # A) Estime a Regressão  Yt = B1 + B2Xt + ut
+      fit04 = lm(formula = INVENTORIES ~ SALES, data = tabela12.9)
+    # B) Faça o Teste DW
+      d4 = lmtest::dwtest(fit04)
+      # d = 1.37 e p-value = 0.01179
+      
+    # C) Faça o teste LM - Como você escolheria a ordem p?
+      
+      # Escolha da Ordem p 
+        teste = arima(resid(fit04), order = c(9,0,0), xreg = tabela12.9$SALES)
+        coeftest(teste)
+        # tentando variar as defasagem de 1 para 9 de forma que aponte quais 
+        # possiveis ordens de AR podem ser significativas, verificamos que 
+        # o AR 3 é o mais significativo.
+      
+      # Teste BG ou LM
+      lm4 = lmtest::bgtest(fit04,order = 3)
+      # LM test = 8.5078, df = 3, p-value = 0.0366
  
+      # Região de Rejeição 
+      ZC = qchisq(0.95, 3)
+      # Zona critica =  7.8147
+      
+      # Resposta.
+      # Pelo p-value = 0.0366 se afirmarmos que existe autocorrelação estaremos 
+      # sujeitos a um erro de 3.66 % segundo o teste de LM.
+      
+      
+    # D) Como você transformaria o modelo para remover a autocorrelação tomando como base o teste da letra (d)
+      
+      # Poderiamos corrigir a autocorrelação serial por meio do método dos Mínimos
+      # Quadrados Generalizados - utilizando o metodo da diferença generalizada quando
+      # rho é conhecido, ou empregando o método da primeira diferença quando rho
+      # é desconhecido (maioria dos casos)
+      
+      
+    # E) Repita as etapas anteriores com a forma funcional loglinear LogYt = B1 + LogB2Xt + ut
+      
+      tabela12.9 = log(tabela12.9) # transformando a tabela.
+      
+      # A2) Estime a Regressão  Yt = B1 + B2Xt + ut
+      fit04 = lm(formula = INVENTORIES ~ SALES, data = tabela12.9)
+      # B2) Faça o Teste DW
+      d4 = lmtest::dwtest(fit04)
+      # DW = 1.2078, p-value = 0.002051
+      
+      # C) Faça o teste LM - Como você escolheria a ordem p?
+      
+      # Escolha da Ordem p 
+      teste = arima(resid(fit04), order = c(9,0,0), xreg = tabela12.9$SALES)
+      coeftest(teste)
+      # tentando variar as defasagem de 1 para 9 de forma que aponte quais 
+      # possiveis ordens de AR podem ser significativas, verificamos que 
+      # o AR 3 é o mais significativo.
+      
+      # Teste BG ou LM
+      lm4 = lmtest::bgtest(fit04,order = 1)
+      # LM test = 7.7105, df = 3, p-value = 0.05239 => Ordem 3
+      # LM test = 6.3398, df = 1, p-value = 0.01181 => Ordem 1
+      
+      # Região de Rejeição 
+      ZC = qchisq(0.95, 1)
+      # Zona critica =  7.8147 => Ordem 3
+      # Zona critica =  3.8414 => Ordem 1
+      
+      # Resposta.
+      # Pelo p-value = 0.05239 se afirmarmos que existe autocorrelação estaremos 
+      # sujeitos a um erro de 5.24 % segundo o teste de LM.
