@@ -6,7 +6,7 @@
 #<============================================================================>#
 ## Preparando Ambiente #########################################################
 # Diretorio
-setwd("D:\\Download\\EconometriaII (1)\\TabelasProva2EconometriaII\\") 
+setwd("D:\\Users\\waite\\Documents\\Robson\\Estudo\\UFF 2019\\Econometria II\\EconometriaII (1)\\TabelasProva2EconometriaII\\") 
 # Pacotes
 library(tseries)
 library(lmtest)
@@ -161,8 +161,88 @@ summary(fit3)
 # (B) Verifique a presença de correlação por:
 
 # Teste Grafico
+
+plot(tabela3$Year, resid(fit3), type = "o")
+abline(h=0)
+
+# O Analise grafica indica ausência de padrão sistematico, sugerindo ausência de
+# autocorrelação no modelo.
+
+
+# Residuos x Residuos defasados. ###############################################
+u.hat.t <- residuals(fit3)[-1]
+u.hat.t1 <- residuals(fit3)[-length(residuals(fit3))]
+plot(u.hat.t1, u.hat.t, xlim = c(-6,4), ylim = c(-6,4))
+abline(h = 0) ## h para horizontal
+abline(v = 0) ## v para vertical
+text(-4,3,labels = "I", font = 2) # font = 2 significa negrito
+text(1.5,3,labels = "II", font = 2)
+text(1.5,-1,labels = "III", font = 2)
+text(-4,-1,labels = "IV", font = 2)
+################################################################################
+
 # Durbin-Watson
+
+lmtest::dwtest(fit3)
+
+# Pelo teste de Durbin-Watson temos um valor de d = 0.328, com uma estatistica
+# de teste p-valor = 2.303e-08. Com um p-valor tão baixo não restam duvidas 
+# de que a hipotese nula, de ausência de autocorrelação será rejeitada, indicando 
+# a existencia de autocorrelação no modelo.
+
 # Run Test
+
+resR <- as.vector(residuals(fit3))
+sinaisR <- sign(resR)
+R <- length(rle(sinaisR)$lengths)
+
+RunsR <- rle(sinaisR)
+N <- length(sinaisR)
+N1 <- sum(RunsR$lengths[RunsR$value==1])
+N2 <- sum(RunsR$lengths[RunsR$value==-1])
+ER <- 2*N1*N2/N + 1
+VR <- (4*(N1^2)*(N2^2) - 2*N1*N2*N)/((N^2)*(N-1))
+sdR <- sqrt(VR)
+
+# ER +- 1.96*(sdR)
+superior = ER + 1.96*(sdR)
+Inferior = ER - 1.96*(sdR)
+
+# Como R = 5, e o intervalo critico sendo, 6.51 <  R* < 14.68, o R não pertence 
+# ao intervalo critico, sendo assim, temos indicios da existencia de autocorrelação
+# pelo Run test.
+
+# (Resposta) Apesar do grafico não apresentar nenhuma indicativo de autocorrelação
+# ambos os testes nos levaram a mesma conclusão, de que existe autocorrelação
+# no modelo escolhido.
+
+# (C) Use o metodo de Cochrane-Orcutt para chegar a rho. (Não cai)
+# (D) ...
+
+# Questão 4 ####################################################################
+
+tabela4 = read.table("Tabela4.txt", header = T, stringsAsFactors = F)
+
+# (A)  Sim, uma vez que o aumento do crescimento populacional iria impactar 
+# no setor da construção civil, com o aumento do numero de habitações.
+
+# (B) Faça o modelo H ~ P
+
+fit4 = lm(formula = H ~ P, data = tabela4)
+summary(fit4)
+
+# Os dados demostram que o coeficiente angular estimado é estatisticamente signi
+# -ficativo ao nível de 5%. A equação demotrou que para o aumento de uma unidade
+# no crescimento populacional, a construção de casas aumenta em 0.07, o que condiz
+# com a ideia inicial que se tinha sobre a relação entre as variaveis. Podemos confirmar
+# então que existe significado economico.
+
+# (C) Faça o teste Durbin Watson e o Run test
+
+
+
+
+
 
 
 
