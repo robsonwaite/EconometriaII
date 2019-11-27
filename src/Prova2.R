@@ -158,6 +158,12 @@ summary(fit3)
 # economica expansiva, que aumenta a oferta de moeda impactando na demanda, ou no caso
 # no consumo.
 
-# (B)
+# (B) Verifique a presença de correlação por:
+
+# Teste Grafico
+# Durbin-Watson
+# Run Test
+
+
 
 
