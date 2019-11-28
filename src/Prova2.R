@@ -6,7 +6,7 @@
 #<============================================================================>#
 ## Preparando Ambiente #########################################################
 # Diretorio
-setwd("D:\\Users\\waite\\Documents\\Robson\\Estudo\\UFF 2019\\Econometria II\\EconometriaII (1)\\TabelasProva2EconometriaII\\") 
+setwd("D:\\Download\\EconometriaII (1)\\TabelasProva2EconometriaII\\") 
 # Pacotes
 library(tseries)
 library(lmtest)
@@ -168,26 +168,13 @@ abline(h=0)
 # O Analise grafica indica ausência de padrão sistematico, sugerindo ausência de
 # autocorrelação no modelo.
 
-
-# Residuos x Residuos defasados. ###############################################
-u.hat.t <- residuals(fit3)[-1]
-u.hat.t1 <- residuals(fit3)[-length(residuals(fit3))]
-plot(u.hat.t1, u.hat.t, xlim = c(-6,4), ylim = c(-6,4))
-abline(h = 0) ## h para horizontal
-abline(v = 0) ## v para vertical
-text(-4,3,labels = "I", font = 2) # font = 2 significa negrito
-text(1.5,3,labels = "II", font = 2)
-text(1.5,-1,labels = "III", font = 2)
-text(-4,-1,labels = "IV", font = 2)
-################################################################################
-
 # Durbin-Watson
 
 lmtest::dwtest(fit3)
 
 # Pelo teste de Durbin-Watson temos um valor de d = 0.328, com uma estatistica
 # de teste p-valor = 2.303e-08. Com um p-valor tão baixo não restam duvidas 
-# de que a hipotese nula, de ausência de autocorrelação será rejeitada, indicando 
+# de que a hipotese nula, de ausência de autocorrelação, será rejeitada indicando 
 # a existencia de autocorrelação no modelo.
 
 # Run Test
@@ -219,7 +206,7 @@ Inferior = ER - 1.96*(sdR)
 # (C) Use o metodo de Cochrane-Orcutt para chegar a rho. (Não cai)
 # (D) ...
 
-# Questão 4 ####################################################################
+# Questão 04 ####################################################################
 
 tabela4 = read.table("Tabela4.txt", header = T, stringsAsFactors = F)
 
@@ -239,11 +226,84 @@ summary(fit4)
 
 # (C) Faça o teste Durbin Watson e o Run test
 
+# Durbin Watson test
+
+lmtest::dwtest(fit4)
+
+# O teste de Durbin Watson apresentou valor d = 0.62, com um p-valor = 6.645e-06,
+# baseando-se em um valor p tão baixo, fica claro que o modelo apresenta 
+# autocorrelação.
+
+# Run test 
+
+resR <- as.vector(residuals(fit4))
+sinaisR <- sign(resR)
+R <- length(rle(sinaisR)$lengths)
+
+RunsR <- rle(sinaisR)
+N <- length(sinaisR)
+N1 <- sum(RunsR$lengths[RunsR$value==1])
+N2 <- sum(RunsR$lengths[RunsR$value==-1])
+ER <- 2*N1*N2/N + 1
+VR <- (4*(N1^2)*(N2^2) - 2*N1*N2*N)/((N^2)*(N-1))
+sdR <- sqrt(VR)
+
+superior = ER + 1.96*sdR
+inferior = ER - 1.96*sdR
+
+# Analisando os valores temos o R = 6, com um intervalo critico de [8.59,18.04], 
+# logo o R não pertence ao intervalor critico, indicando a existencia de autocorrelação
+# no modelo.
 
 
+# (Resposta) Com base em ambos os testes chegamos a conclusão que o modelo possui
+# autocorrelação.
 
+# (D) Faça o modelo H ~ P + D
 
+fit4 = lm(formula = H ~ P + D, data = tabela4)
+summary(fit4)
 
+# Os dados demostram que ambos os coeficientes angulares estimados possuem 
+# significancia estatistica ao nível de 5%. A equação demostra que para cada
+# que a variação de 1 und de crescimento populacional, a construção de habitações
+# aumenta em 0,03, e que uma variação de 1 und de disponibilidade de credito imob
+# a construção aumenta em 0.76. Ambos os valores possuem sentido economico, logo que se
+# espera que o aumento do credito facilite o financiamento de novas habitações.
 
+# (E) Refaça os testes.
 
+# Durbin Watson test
 
+lmtest::dwtest(fit4)
+
+# O teste de Durbin Watson apresentou valor d = 1,85, com uma estatistica de teste
+# p-valor = 0.2316, com um p valor tão alto, não restam duvida de que a hipotese nula
+# de ausencia de correlação não será rejeitada.
+
+# Run test 
+
+resR <- as.vector(residuals(fit4))
+sinaisR <- sign(resR)
+R <- length(rle(sinaisR)$lengths)
+
+RunsR <- rle(sinaisR)
+N <- length(sinaisR)
+N1 <- sum(RunsR$lengths[RunsR$value==1])
+N2 <- sum(RunsR$lengths[RunsR$value==-1])
+ER <- 2*N1*N2/N + 1
+VR <- (4*(N1^2)*(N2^2) - 2*N1*N2*N)/((N^2)*(N-1))
+sdR <- sqrt(VR)
+
+superior = ER + 1.96*sdR
+inferior = ER - 1.96*sdR
+
+# Analisando os valores temos o R = 13, com um intervalo critico de [8.40,17.59], 
+# como o R pertence ao intervalor critico temos um indicativo de ausencia de autocorrelação.
+
+# (Resposta) Diferente dos resultados do modelo anterior, o modelo utilizado agora
+# possui ausência de autocorrelação, fato analisando em ambos os testes.
+
+# (F) O modelo anterior estava com erro de especificação, a falta variavel de disponibilidade
+# de credito imobiliario, estava causando autocorrelação. Uma vez incluida o modelo
+# não apresenta mais autocorrelação.
